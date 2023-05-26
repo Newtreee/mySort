@@ -5,6 +5,7 @@ using namespace std;
 
 class Sort {
 private:
+
     int findPos(vector<int> &nums, int left, int right) {
         int val = nums[left];
         while (left < right) {
@@ -62,7 +63,28 @@ private:
 
 public:
 
-
+    void insertSort(vector<int> &nums){
+        int index = 0; /*记录已经排序好的最后一位索引*/
+        if(nums.size() < 2){
+            return;
+        }
+        while(index < nums.size()){
+            for(int j = 0;j <= index;++j){
+                if(nums[index] <= nums[j]){
+                    /*将位于 index 的元素插入 j 前面*/
+                    int val = nums[index];
+                    for(int k = index - 1;k >= j; --k){
+                        nums[k + 1] = nums[k];
+                    }
+                    nums[j] = val;
+                    break;
+                }
+            }
+            traverse(nums,nums.size());
+            cout << "||||";
+            ++index;
+        }
+    }
     void quickSort(vector<int> &nums, int left, int right) {
         if (left < right) {
             traverse(nums, nums.size());
@@ -110,12 +132,15 @@ int main() {
     vector<int> nums = {12, 2, 16, 30, 28, 10, 16, 20, 6, 18};
 
     Sort *sort = new Sort();
-    cout << "quickSort:" << endl;
+    /*cout << "quickSort:" << endl;
     sort->quickSort(nums, 0, nums.size() - 1);
     cout << endl << "quickSort end." << endl;
     nums = {12, 2, 16, 30, 28, 10, 16, 20, 6, 18};
     cout << "mergeSort:" << endl;
     sort->mergeSort(nums);
-
+    cout << endl << "mergeSort end." << endl;*/
+    /*cout << "insertSort:" << endl;
+    sort->insertSort(nums);
+    cout << endl << "insertSort end." << endl;*/
     return 0;
 }
