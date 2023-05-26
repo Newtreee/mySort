@@ -5,7 +5,6 @@ using namespace std;
 
 class Sort {
 private:
-
     int findPos(vector<int> &nums, int left, int right) {
         int val = nums[left];
         while (left < right) {
@@ -63,28 +62,67 @@ private:
 
 public:
 
-    void insertSort(vector<int> &nums){
-        int index = 0; /*记录已经排序好的最后一位索引*/
-        if(nums.size() < 2){
+    void insertSort(vector<int> &nums) {
+        int index = 0;
+        if (nums.size() < 2) {
             return;
         }
-        while(index < nums.size()){
-            for(int j = 0;j <= index;++j){
-                if(nums[index] <= nums[j]){
+        while (index < nums.size()) {
+            for (int j = 0; j <= index; ++j) {
+                if (index != 0 && nums[index] >= nums[index - 1]) {
+                    continue;
+                }
+                if (nums[index] <= nums[j]) {
                     /*将位于 index 的元素插入 j 前面*/
                     int val = nums[index];
-                    for(int k = index - 1;k >= j; --k){
+                    for (int k = index - 1; k >= j; --k) {
                         nums[k + 1] = nums[k];
                     }
                     nums[j] = val;
                     break;
                 }
             }
-            traverse(nums,nums.size());
+            traverse(nums, nums.size());
             cout << "||||";
             ++index;
         }
     }
+
+    void halfInsertSort(vector<int> &nums) {
+        int index = 0;
+        if (nums.size() < 2) {
+            return;
+        }
+        while (index < nums.size()) {
+            int left = 0;
+            int right = index;
+            int mid = left + (right - left) / 2;
+            if (index != 0 && nums[index] < nums[index - 1]) {
+                while (left < right) {
+                    if (nums[mid] == nums[index]) {
+                        break;
+                    }
+                    if (nums[mid] >= nums[index]) {
+                        right = mid;
+                    } else {
+                        left = mid + 1;
+                    }
+                    mid = left + (right - left) / 2;
+                }
+                int val = nums[index];
+                for (int k = index - 1; k >= mid; --k) {
+                    nums[k + 1] = nums[k];
+                }
+                nums[mid] = val;
+            }
+
+            traverse(nums, nums.size());
+            cout << "||||";
+            ++index;
+        }
+    }
+
+
     void quickSort(vector<int> &nums, int left, int right) {
         if (left < right) {
             traverse(nums, nums.size());
@@ -104,27 +142,28 @@ public:
             }
         }
         int ssize = 2;
-        while (ssize < nums.size()){
+        while (ssize < nums.size()) {
             for (int j = 0; j < nums.size(); j += ssize + ssize) {
                 mmerge(nums, j, ssize);
             }
-        traverse(nums, nums.size());
-        cout << "||||";
-        ssize *= 2;
+            traverse(nums, nums.size());
+            cout << "||||";
+            ssize *= 2;
+        }
     }
-}
 
-void traverse(vector<int> &nums, int end) {
-    for (int i = 0; i < end; ++i) {
-        cout << nums[i] << " ";
+
+    void traverse(vector<int> &nums, int end) {
+        for (int i = 0; i < end; ++i) {
+            cout << nums[i] << " ";
+        }
     }
-}
 
-int min(int a, int b) {
-    if (a < b)
-        return a;
-    return b;
-}
+    int min(int a, int b) {
+        if (a < b)
+            return a;
+        return b;
+    }
 
 };
 
@@ -138,9 +177,14 @@ int main() {
     nums = {12, 2, 16, 30, 28, 10, 16, 20, 6, 18};
     cout << "mergeSort:" << endl;
     sort->mergeSort(nums);
-    cout << endl << "mergeSort end." << endl;*/
-    /*cout << "insertSort:" << endl;
+    cout << endl << "mergeSort end." << endl;
+    cout << "insertSort:" << endl;
     sort->insertSort(nums);
-    cout << endl << "insertSort end." << endl;*/
+    cout << endl << "insertSort end." << endl;
+    cout << "halfinsertSort:" << endl;
+    sort->halfInsertSort(nums);
+    cout << endl << "halfinsertSort end." << endl;*/
+
+
     return 0;
 }
